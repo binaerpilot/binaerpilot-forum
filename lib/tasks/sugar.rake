@@ -2,19 +2,6 @@
 
 namespace :sugar do
 
-  desc "Generate new passwords for everyone and send welcome mail"
-  task :welcome => :environment do
-    User.find_active.each do |user|
-      user.generate_password!
-      user.save
-      begin
-        Mailer.welcome(user).deliver
-      rescue
-        puts "Couldn't send message to: #{user.username} - #{user.full_email}"
-      end
-    end
-  end
-
   desc "Pack themes"
   task :pack_themes => :environment do
     themes_dir = File.join(File.dirname(__FILE__), "../../public/themes")
@@ -76,8 +63,6 @@ namespace :sugar do
     empty_discussions.each do |d|
       d.destroy
     end
-    users.each{|u| u.fix_counter_cache!}
-    categories.each{|c| c.fix_counter_cache!}
   end
 
   desc "Converts Flickr usernames to user IDs"

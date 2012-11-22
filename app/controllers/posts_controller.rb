@@ -68,7 +68,11 @@ class PostsController < ApplicationController
       unless @discussion.viewable_by?(@current_user)
         render :text => '', :status => 403 and return
       end
-      @posts = @discussion.posts_since_index(params[:index])
+      @posts = @discussion.posts
+        .includes(:user)
+        .limit(200)
+        .offset(params[:index])
+        .all
       if @current_user
         @current_user.mark_discussion_viewed(@discussion, @posts.last, (params[:index].to_i + @posts.length))
       end
@@ -95,7 +99,6 @@ class PostsController < ApplicationController
         @post = @discussion.posts.create(:user => @current_user, :body => params[:post][:body])
         if @post.valid?
           @discussion.reload
-          @discussion.fix_counter_cache!
           if @discussion.kind_of?(Conversation)
             @discussion.conversation_relationships.reject{|r| r.user == @current_user}.each{|r| r.update_attribute(:new_posts, true)}
           end

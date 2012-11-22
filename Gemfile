@@ -5,11 +5,14 @@ def mac?
   RUBY_PLATFORM.downcase.include?('darwin')
 end
 
-gem 'rails', '3.2.7'
+gem 'rails', '3.2.8'
 gem "bcrypt-ruby", :require => "bcrypt"
 
 # gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'sqlite3'
 gem 'mysql2'
+gem 'pg'
+
 gem "redis", "~> 3.0.0.rc2"
 gem "hiredis", "~> 0.4.5"
 
@@ -51,22 +54,6 @@ end
 
 group :development do
   gem 'yui-compressor', :require => 'yui/compressor'
-end
-
-group :test, :development do
-  gem 'sunspot_solr'
-
-  # RSpec
-  gem 'rspec-rails'
-  gem 'rspec-redis_helper'
-  gem 'shoulda-matchers'
-  gem 'capybara'
-
-  # FactoryGirl
-  gem 'factory_girl_rails'
-
-  # Spork
-  gem 'spork'
 
   # Guard
   gem 'rb-fsevent' #if mac?
@@ -74,4 +61,26 @@ group :test, :development do
   gem 'guard'
   gem 'guard-spork'
   gem 'guard-rspec'
+end
+
+group :test do
+  gem 'simplecov', :require => false
+end
+
+group :test, :development do
+  gem 'sunspot_solr'
+  gem 'sunspot-rails-tester'
+
+  # RSpec
+  gem 'rspec-rails'
+  gem 'rspec-redis_helper'
+  gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'fuubar'
+
+  # FactoryGirl
+  gem 'factory_girl_rails'
+
+  # Spork
+  gem 'spork'
 end

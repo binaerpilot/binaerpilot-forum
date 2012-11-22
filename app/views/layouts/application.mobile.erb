@@ -45,7 +45,7 @@
       <% end %>
     </h1>
     </div>
-  <% if @current_user || Sugar.config(:public_browsing) %>
+  <% if @current_user || Sugar.public_browsing? %>
     <div id="navigation"><ul>
       <li><%= link_to "Discussions", discussions_path %></li>
       <li><%= link_to "Categories", categories_path %></li>
@@ -91,7 +91,7 @@
       <%= link_to "Following", following_discussions_path %> |
       <%= link_to "Favorites", favorites_discussions_path %> |
     <% end %>
-    <%= link_to "Regular site", :mobile_format => 'html' %>
+    <%= link_to "Regular site", {:mobile_format => 'html'}, :class => 'regular_site' %>
   </div>
   <% if Sugar.config(:google_analytics) -%>
   <script type="text/javascript">
